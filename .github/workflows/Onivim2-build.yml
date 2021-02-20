@@ -51,7 +51,7 @@ jobs:
       id: date
       run: echo "time=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: Get Onivim2 version
-      run: cd oni2 && echo "version=$(head -1 CHANGES.md | cut -c-8 | sed 's/^.\{2\}//')" >> $GITHUB_ENV
+      run: cd oni2 && echo "version=$(head -1 CHANGES.md | cut -c-7 | sed 's/^.\{2\}//')" >> $GITHUB_ENV
     - name: Create Release
       uses: softprops/action-gh-release@v1
       env:
