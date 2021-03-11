@@ -15,7 +15,7 @@ jobs:
     - name: Install Dependecies
       run: sudo apt-get update && sudo apt-get install -y nodejs git nasm ragel libgdk-pixbuf2.0-dev librsvg2-2 librsvg2-bin librsvg2-common librsvg2-dev libimage-librsvg-perl libgtk-3-0 libpng-dev libglvnd-dev libacl1-dev libncurses-dev libgtk-3-dev libharfbuzz-dev libfreetype6-dev libbz2-dev build-essential libfontconfig1-dev fontconfig m4 cmake xorg-dev libxxf86vm-dev libxkbfile-dev libglu1-mesa-dev clang
     - name: Clone Onivim2 source
-      run: source ~/.profile && git clone --depth=2 https://github.com/onivim/oni2.git oni2
+      run: source ~/.profile && git clone --depth=1 https://github.com/onivim/oni2.git oni2
     - name: Fix npm permission errors
       run: source fix-npm.sh
     - name: Install esy
@@ -25,9 +25,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: oni2/_export
-        key:  ${{ runner.os }}-esy-${{ hashFiles('oni2/esy.lock/index.json') }}
+        key:  ${{ runner.os }}-esy-new-${{ hashFiles('oni2/esy.lock/index.json') }}
         restore-keys: |
-          ${{ runner.os }}-esy-
+          ${{ runner.os }}-esy-new
     - name: Esy source install
       run: source ~/.profile && cd oni2 && npm install -g node-gyp && node install-node-deps.js && esy install
     - name: Import Cache
