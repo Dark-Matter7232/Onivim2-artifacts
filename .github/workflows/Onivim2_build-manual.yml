@@ -14,36 +14,36 @@ jobs:
     - name: Install Dependecies
       run: sudo apt-get update && sudo apt-get install -y nodejs git nasm ragel libgdk-pixbuf2.0-dev librsvg2-2 librsvg2-bin librsvg2-common librsvg2-dev libimage-librsvg-perl libgtk-3-0 libpng-dev libglvnd-dev libacl1-dev libncurses-dev libgtk-3-dev libharfbuzz-dev libfreetype6-dev libbz2-dev build-essential libfontconfig1-dev fontconfig m4 cmake xorg-dev libxxf86vm-dev libxkbfile-dev libglu1-mesa-dev clang
     - name: Clone Onivim2 source
-      run: source ~/.profile && git clone --depth=2 https://github.com/onivim/oni2.git oni2
+      run: source ~/.profile && git clone --depth=1 https://github.com/onivim/oni2.git oni2
     - name: Fix npm permission errors
       run: source fix-npm.sh
     - name: Install esy
       run: npm install -g esy@latest
-    - name: Restore Cache
-      id: restore-cache
-      uses: actions/cache@v2
-      with:
-        path: oni2/_export
-        key:  ${{ runner.os }}-esy-${{ hashFiles('oni2/esy.lock/index.json') }}
-        restore-keys: |
-          ${{ runner.os }}-esy-
+#     - name: Restore Cache
+#       id: restore-cache
+#       uses: actions/cache@v2
+#       with:
+#         path: oni2/_export
+#         key:  ${{ runner.os }}-esy-${{ hashFiles('oni2/esy.lock/index.json') }}
+#         restore-keys: |
+#           ${{ runner.os }}-esy-
     - name: Esy source install
       run: source ~/.profile && cd oni2 && npm install -g node-gyp && node install-node-deps.js && esy install
-    - name: Import Cache
-      run: |
-        source ~/.profile
-        cd oni2
-        esy import-dependencies _export
-        rm -rf _export   
+#     - name: Import Cache
+#       run: |
+#         source ~/.profile
+#         cd oni2
+#         esy import-dependencies _export
+#         rm -rf _export   
     - name: Build Onivim2
       run:  cd oni2 && source ~/.profile && esy bootstrap && source ~/.profile && esy '@release' install && esy '@release' run -f --checkhealth && esy '@release' create
     # Re-export dependencies if anything has changed or if it is the first time
-    - name: Setting dependency cache 
-      run: |
-        source ~/.profile
-        cd oni2
-        esy export-dependencies 
-      if: steps.restore-cache.outputs.cache-hit != 'true'  
+#     - name: Setting dependency cache 
+#       run: |
+#         source ~/.profile
+#         cd oni2
+#         esy export-dependencies 
+#       if: steps.restore-cache.outputs.cache-hit != 'true'  
     - name: Change artifact name
       run: cd oni2/_release && mv Onivim2-x86_64.AppImage Onivim2-x86_64_$(date +%F).AppImage
     - name: Get current date
