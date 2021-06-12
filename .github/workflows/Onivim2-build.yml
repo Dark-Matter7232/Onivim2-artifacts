@@ -25,9 +25,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: oni2/_export
-        key:  ${{ runner.os }}-esy-new-${{ hashFiles('oni2/esy.lock/index.json') }}
+        key:  ${{ runner.os }}-esy-a-${{ hashFiles('oni2/esy.lock/index.json') }}
         restore-keys: |
-          ${{ runner.os }}-esy-new
+          ${{ runner.os }}-esy-a
     - name: Esy source install
       run: source ~/.profile && cd oni2 && npm install -g node-gyp && node install-node-deps.js && esy install
     - name: Import Cache
